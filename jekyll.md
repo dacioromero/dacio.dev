@@ -1,6 +1,6 @@
 ---
 layout: post
-title: Hosting an LetsEncrypted Jekyll Website with GitLab Pages, CI
+title: How to Host a Jekyll Website with GitLab Pages, Custom Domain, and TLS
 ---
 
 To get this blog up and running I had the issue of needing to serve it through HTTPS because of HSTS property on .dev domains.
@@ -66,8 +66,7 @@ You're likely not going to want to send people to gitlab.io link, so lets get yo
 
 ***THIS SECTION IS A SHORTENED VERISON OF [GITLAB'S](https://about.gitlab.com/2016/04/11/tutorial-securing-your-gitlab-pages-with-tls-and-letsencrypt/)***
 
-If you bought a .dev or .a
-pp domain like me you'll run into the issue. Where you can't access you're newly minted page due to pesky [HSTS](https://en.wikipedia.org/wiki/HTTP_Strict_Transport_Security)
+If you bought a .dev or .app domain like me you'll run into the issue. Where you can't access you're newly minted page due to pesky [HSTS](https://en.wikipedia.org/wiki/HTTP_Strict_Transport_Security)
 
 Regardless you should encrypt your site for peace of mind
 
