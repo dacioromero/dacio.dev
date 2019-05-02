@@ -1,21 +1,23 @@
 ---
 layout: post
-title: Understanding Python Iterators and Generators
+title: Fantastic Iterators and How to Make Them
 ---
 
 <!--
 TODO:
 - Add visual aids
 - Get peer reviewed
-- Publisg
+- Publish
 -->
 
-![Hero Image](https://source.unsplash.com/dJdcb11aboQ)
-<center>Photo by John Matychuk on Unsplash</center>
+<center>
+  <img src="https://source.unsplash.com/dJdcb11aboQ" alt="Hero Image">
+  Photo by John Matychuk on Unsplash
+</center>
 
 ## The Problem
 
-Let's say you need to search for occurrences an item in an *unsorted* list. Your first impression might be to create a list of the indices and return it.
+While learning at Make School I've seen my peers write functions that create lists of items that they very often iterate over them.
 
 ```python
 s = 'baacabcaab'
@@ -30,179 +32,267 @@ def find(string, character):
 
   return indices
 
-print(find(s, p))
-# [1, 2, 4, 7, 8]
+print(find(s, p)) # [1, 2, 4, 7, 8]
 ```
 
-But I would then ask you the following:
+This implementation works, but it poses a few problems:
 
-- What if later on you only wanted the first result? Do we need to rewrite all of that logic?
-- Do we need every element in a list when we'll just loop over them and discard them afterward?
+- What if we only want the first result; will we need to make an entirely new function?
+- What if all we do is loop over the result once, do we need to store every element in memory?
 
-This is where iterators and generators come in. They're what I'd like to think of as "lazy lists" in that they only give you the elements when you ask. Instead of making a gigantic list in memory with every item when called it "returns" each element one at a time.
+Iterators are the ideal solution to these problems. They function like "lazy lists" in that instead of returning a list with every value it produces and returns each element one at a time.
 
-> Iterators and generators **lazily** return values allowing us to save memory.
+> Iterators **lazily** return values; saving memory.
+
+***So let's dive into learning about them***
+
+## Built-In Iterators
+
+The iterators that are most often are `enumerate()`, and `zip()`. Both of these *lazily* return values by calling them on `next()`.
+
+**Range, however, is *not* an iterator, but an *"lazy iterable"*** - [Python: range is not an iterator!](https://treyhunner.com/2018/02/python-range-is-not-an-iterator/)
+
+We can convert `range()` into an iterator with `iter()`, so we'll do that for our examples for the sake of learning.
+
+```python
+my_iter = iter(range(10))
+print(next(my_iter)) # 0
+print(next(my_iter)) # 1
+```
+
+You can see that on each call of next we get the next value in our range. If you want to convert an iterator it to a list you just give it the the list constructor.
+
+```python
+my_range = iter(range(10))
+print(list(my_range)) # [0, 1, 2, 3, 4, 5, 6, 7, 8, 9]
+```
+
+You can mimick this behavior.
+
+```python
+my_range = iter(range(10))
+my_list = list()
+
+try:
+  while True:
+    my_list.append(next(my_range))
+except StopIteration:
+  pass
+
+print(my_list) # [0, 1, 2, 3, 4, 5, 6, 7, 8, 9]
+```
+
+You can see that we needed to wrap it in a try catch statement. That's because iterators raise `StopIteration` when they've exhausted themselves.
+
+So if we call next on our range now that its exhaused, we'll get that error.
+
+```python
+next(my_iter) # Raises: StopIteration
+```
 
 ## Making an Iterator
 
-Let's try improving our code by using three common types of iterators: [Classes](#class), [Generator Functions (Yield)](#generator-function-yield) and [Generator Expressions](#generator-expression)
+Let's try making a iterator that behaves like `range` with only the stop argument by using three common types of iterators: [Classes](#class), [Generator Functions (Yield)](#generator-function-yield) and [Generator Expressions](#generator-expression)
 
 ### Class
 
 The old way of creating an iterator was through an explicitly defined class.
 
 ```python
-class find:
-  def __init__(self, string, character):
-    self.string = string
-    self.character = character
-    self.index = 0
+class my_range:
+  _current = -1
+
+  def __init__(self, stop):
+    self._stop = stop
 
   def __iter__(self):
     return self
 
   def __next__(self):
-    while self.index < len(self.string):
-      if self.string[self.index] == self.character:
-        break
+    self._current += 1
 
-      self.index += 1
-    else:
+    if self._current == self._stop:
       raise StopIteration
 
-    index = self.index
-    self.index += 1
-    return index
+    return self._current
 
-f = find(s, p)
-print(list(find(s, p)))
-# Out: [1, 2, 4, 7, 8]
+r = my_range(10)
+print(list(r)) # [0, 1, 2, 3, 4, 5, 6, 7, 8, 9]
 ```
 
-Personally, I would only use this when absolutely necessary. You could create additional functions that could modify the "state" of the iterator, but in most cases, you probably won't need to do that. I'd recommend trying one of the methods below.
+This isn't too bad, but we have to keep track of iternal variables. Personally I get tired of writing all of the boilerplate and changing my thinking that the loop is calling `__next__` repeatedly.
 
-#### Pros
+A benefit is that we can add additonal functions that modify its interal variables such as `_stop`.
 
-- Can have additional functions state
+> Class iterators have the downside of needing boilerplate, however they can have additional functions that modify state.
 
-#### Cons
+### Generators
 
-- Lots of boilerplate
-- Not very "Pythonic"
+[PEP 255](https://www.python.org/dev/peps/pep-0255/) introduced "simple generators" using the `yield` keyword.
 
-### Generator Function (Yield)
+> Today, generators are iterators that are must easier to make than their class counterparts.
+
+#### Generator Function
 
 ```python
+def my_range(stop):
+  index = 0
+
+  while index < stop:
+    yield index
+    index += 1
+
+r = my_range(10)
+print(list(r)) # [0, 1, 2, 3, 4, 5, 6, 7, 8, 9]
+```
+
+Do you see how beautiful those 4 lines of code are? It's even slightly shorter than the list method and acts exactly the same!
+
+> Generator functions iterators with less boilerplate than classes with a normal logic flow.
+
+Generator functions automagically **"pause"** execution and return the specified value with every call of `next()`. This means that *no code* is run until the **first** `next()` call.
+
+This means the flow is like this:
+
+1. `next()` is called,
+1. Code is executed up to the next `yield` statement.
+1. The value on the right of `yield` is returned.
+1. Execution is paused.
+1. 1-5 repeat for every `next()` call until last line of code is hit.
+1. `StopIteration` is raised.
+
+Generator functions also allow for you to use the `yield from` keyword which future `next()` calls to another iterable until said iterable has been exhausted.
+
+```python
+def example():
+  yield from my_range(10)
+
+print(list(example())) # [0, 1, 2, 3, 4, 5, 6, 7, 8, 9]
+```
+
+That wasn't a particularly complex example. But you can even do it *recursively*!
+
+```python
+def my_range_recursive(stop, current = 0):
+  if current >= stop:
+    return
+
+  yield current
+  yield from my_range_recursive(stop, current + 1)
+
+r = my_range_recursive(10)
+print(list(r))
+```
+
+#### Generator Expression
+
+Generator expressions allow us to create generators in one line and are good when it doesn't need to be reused. Unfortuately we can't make our custom range, but we can work on it.
+
+```python
+my_doubled_range_10 = (x * 2 for x in my_range(10))
+print(list(my_doubled_range_10)) # 0, 2, 4, 6, 8, 10, 12, 14, 16, 18]
+```
+The cool thing about this is that it does the following:
+
+1. The `list` asks `my_doubled_range_10` for its next value.
+1. `my_doubled_range_10` asks `my_range` for its next value.
+1. `my_doubled_range_10` returns `my_range`'s value multiplied by 2.
+1. The `list` appends the value to itself.
+1. 1-5 repeat until `my_doubled_range_10` raises `StopIteration` which happens when `my_range` does
+1. The `list` returns what it created from those values
+
+We can even do *filtering* using generator expressions!
+
+```python
+my_even_range_10 = (x for x in my_range(10) if x % 2 == 0)
+print(list(my_even_range_10)) # [0, 2, 4, 6, 8]
+```
+
+This is very similar to the previous except `my_even_range_10` only returns values that match the given condition, so only even values between in the range [0, 10).
+
+## The Benefit
+
+Because generators are iterators, iterators are iterables, and iterators lazily return values. This means that using this knowledge we can create objects that will only give us objects when we ask for them and however many we like.
+
+<center>
+  <img src="https://nvie.com/img/relationships.png" alt="Relationships">
+  <a href="https://nvie.com/posts/iterators-vs-generators/">Source</a>
+</center>
+
+We can rewrite the very [first example](#the-problem) to be much better using a generator function!
+
+```python
+s = 'baacabcaab'
+p = 'a'
+
 def find(string, character):
   for index, str_char in enumerate(string):
     if str_char == character:
       yield index
 
-f = find(s, p)
-print(list(f))
-# [1, 2, 4, 7, 8]
+print(list(find(s, p))) # [1, 2, 4, 7, 8]
 ```
 
-Do you see how beautiful those 4 lines of code are? It's even slightly shorter than the list method!
+Now immediately there might be no obvious benefit, but lets go to my first question: "-What if we only want the first result; will we need to make an entirely new function?"
 
-#### Pros
-
-- Short and concise
-- No boilerplate
-
-#### Cons
-
-- No code will run until `next()` is called
-
-### Generator Expression
-
-Generator expressions are great for creating simple, inline generators, but they can easily get far too compact and unreadable.
+With a generator funcion we don't.
 
 ```python
-f = (index for index, str_char in enumerate(string) if str_char == character)
-
-print(list(f))
-# [1, 2, 4, 7, 8]
+print(next(find(s, p))) # 1
 ```
 
-This may seem incredibly similar to a list comprehension, that's because it could be written as the following one-liner:
+Now we *could* retrieve the first value of the list that our original soluton gave, but this way we only get the first match and stop iterating over the list, massively saving memory.
+
+We can even pass it into functions like `sum()` without storing each value in a list beforehand.
 
 ```python
-print([index for index, str_char in enumerate(string) if str_char == character])
+print(sum) # 22
 ```
 
-The difference we'll go further into in when we [go further](#going-further)
+## Conclusion
 
-#### Pros
-
-- Super short
-
-#### Cons
-
-- Can quickly become very unreadable
-- Slightly slower than [Generator Functions](#generator-function-yield) - [Source](https://stackoverflow.com/a/1995585)
-
-## Going Further
-
-At this point, you might be wondering why we keep converting `f` to a list. A hint can be found in our first, class-based version. There's nothing that clearly shows that it is subscriptable and that's because it's an iterator!
-
-If you look at the documentation constructor for list it takes in an `iterable`.
-
-> Iterators are iterables and generators are iterators, therefore generators are iterators
-
-You could almost think of `list(f)` as the following
+If you're ever creating a function the accumulates values in a list like this.
 
 ```python
-def convert_list(iterator):
-  i_list = []
+def func(iterable):
+  values = []
 
-  while True:
-    try:
-      i_list.append(next(iterator))
-    except StopIteration:
-      break
+  for x in iterable:
+    # some logic
+    values.append(x)
 
-  return i_list
+  return values
 ```
 
-### Classes
+Consider making it return an iterator with a class, generator function, or generator expression like so:
 
-In the case of our **class method** calling `next(f)` is equivalent to calling `f.__next__()`. So keeps calling `f.__next__()` until it `StopIteration` is raised.
-
-Both our generator functions and expressions create objects with the next
-
-### Generator Functions/Expressions
-
-A function with a yield statement is a generator function that returns a generator object.
-
-> Generator functions allow you to declare a function that behaves like an iterator, i.e. it can be used in a for a loop. - [Python Documentation](https://wiki.python.org/moin/Generators)
-
-Generator expressions create generator objects as well.
-
-This means that they implement `__iter__` and `__next__` in a similar fashion to our class. The difference is that the function tracks the past omitting the need for an `__init__`, thus allowing it to "resume" execution.
-
-On the first call of `next` on a generator, the function starts execution and "returns" the value after yield and "pauses" execution. The next time `__next__` is called it "resumes" execution until the next `yield` statement.
-
-It repeats this cycle until it reaches the end where it raises `StopIteration` just like the class.
-
-> This allows us to create generators with a much simpler syntax
-
-Additionally, you can use `yield from` to direct future calls of `next` to the result of another iterator. It even has the potential of creating [*recursive generators*](https://stackoverflow.com/a/8991864)
-
-### Conclusion
-
-When creating functions that return iterables consider making them into iterators or generators to save memory and potentially even speed up. your code by reducing memory usage.
-
-I'm actively looking for internships! Check out my [LinkedIn](https://www.linkedin.com/in/dacioromero/) or [GitLab](https://gitlab.com/dacio) and get in contact with me if you're interested!
+```python
+def func(iterable):
+  for x in iterable:
+    # some logic
+    yield x
+```
 
 ## Resources and Sources
 
-[Generator Expression vs Function](https://stackoverflow.com/a/1995585)
+#### PEPs
+- [Generators](https://www.python.org/dev/peps/pep-0255/)
+- [Generator Expressions PEP](https://www.python.org/dev/peps/pep-0289/)
+- [Yield From PEP](https://www.python.org/dev/peps/pep-0380/)
 
-[Generator Documentation](https://wiki.python.org/moin/Generator)
+## Articles and Threads
 
-[Recrusive Generators](https://stackoverflow.com/a/8991864)
+- [Iterators](https://www.programiz.com/python-programming/iterator)
+- [Iterable vs Iterator](https://www.geeksforgeeks.org/python-difference-iterable-iterator/)
+- [Generator Documentation](https://wiki.python.org/moin/Generator)
+- [Iterators vs Generators](https://nvie.com/posts/iterators-vs-generators/)
+- [Generator Expression vs Function](https://stackoverflow.com/a/1995585)
+- [Recrusive Generators](https://stackoverflow.com/a/8991864)
 
-[More on Iterators](https://www.programiz.com/python-programming/iterator)
+### Definitions
 
-[Iteratable vs Iterator](https://www.geeksforgeeks.org/python-difference-iterable-iterator/)
+- [Iterable](https://docs.python.org/3/glossary.html#term-iterable)
+- [Iterator](https://docs.python.org/3/glossary.html#term-iterator)
+- [Generator](https://docs.python.org/3/glossary.html#term-generator)
+- [Generator Iterator](https://docs.python.org/3/glossary.html#term-generator-iterator)
+- [Generator Expression](https://docs.python.org/3/glossary.html#term-generator-expression)
