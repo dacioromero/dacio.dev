@@ -23,8 +23,8 @@ While learning at Make School I've seen my peers write functions that create lis
 s = 'baacabcaab'
 p = 'a'
 
-def find(string, character):
-  indices = []
+def find_char(string, character):
+  indices = list()
 
   for index, str_char in enumerate(string):
     if str_char == character:
@@ -32,7 +32,7 @@ def find(string, character):
 
   return indices
 
-print(find(s, p)) # [1, 2, 4, 7, 8]
+print(find_char(s, p)) # [1, 2, 4, 7, 8]
 ```
 
 This implementation works, but it poses a few problems:
@@ -50,7 +50,7 @@ Iterators are the ideal solution to these problems. They function like "lazy lis
 
 The iterators that are most often are `enumerate()`, and `zip()`. Both of these *lazily* return values by `next()` with them.
 
-**`range()`, however, is *not* an iterator, but an *"lazy iterable"*** - [Python: range is not an iterator!](https://treyhunner.com/2018/02/python-range-is-not-an-iterator/)
+**`range()`, however, is *not* an iterator, but an *"lazy iterable."*** - [Explanation](https://treyhunner.com/2018/02/python-range-is-not-an-iterator/)
 
 We can convert `range()` into an iterator with `iter()`, so we'll do that for our examples for the sake of learning.
 
@@ -166,10 +166,10 @@ This means the flow is like this:
 Generator functions also allow for you to use the `yield from` keyword which future `next()` calls to another iterable until said iterable has been exhausted.
 
 ```python
-def example():
+def yielded_range():
   yield from my_range(10)
 
-print(list(example())) # [0, 1, 2, 3, 4, 5, 6, 7, 8, 9]
+print(list(yielded_range())) # [0, 1, 2, 3, 4, 5, 6, 7, 8, 9]
 ```
 
 That wasn't a particularly complex example. But you can even do it *recursively*!
@@ -188,7 +188,7 @@ print(list(r))
 
 #### Generator Expression
 
-Generator expressions allow us to create iterators as one-liners and are good when we don't need to give it external functions. Unfortunately, we can't make `my_range` using an expression, but we can work on iterables like our last `my_range` function.
+Generator expressions allow us to create iterators as one-liners and are good when we don't need to give it external functions. Unfortunately, we can't make another `my_range` using an expression, but we can work on iterables like our last `my_range` function.
 
 ```python
 my_doubled_range_10 = (x * 2 for x in my_range(10))
@@ -260,10 +260,10 @@ Now we *could* retrieve the first value of the list that our original solution g
 If you're ever creating a function the accumulates values in a list like this.
 
 ```python
-def func(iterable):
+def foo(bar):
   values = []
 
-  for x in iterable:
+  for x in bar:
     # some logic
     values.append(x)
 
@@ -273,8 +273,8 @@ def func(iterable):
 Consider making it return an iterator with a class, generator function, or generator expression like so:
 
 ```python
-def func(iterable):
-  for x in iterable:
+def foo(bar):
+  for x in bar:
     # some logic
     yield x
 ```
