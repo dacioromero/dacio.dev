@@ -63,19 +63,19 @@ print(next(my_iter)) # 1
 Upon each call of `next() `we get the next value in our range; makes sense right? If you want to convert an iterator it to a list you just give it the list constructor.
 
 ```python
-my_range = iter(range(10))
-print(list(my_range)) # [0, 1, 2, 3, 4, 5, 6, 7, 8, 9]
+my_iter = iter(range(10))
+print(list(my_iter)) # [0, 1, 2, 3, 4, 5, 6, 7, 8, 9]
 ```
 
 If we mimic this behavior we'll start to understand more about how iterators work.
 
 ```python
-my_range = iter(range(10))
+my_iter = iter(range(10))
 my_list = list()
 
 try:
   while True:
-    my_list.append(next(my_range))
+    my_list.append(next(my_iter))
 except StopIteration:
   pass
 
@@ -183,7 +183,7 @@ def my_range_recursive(stop, current = 0):
   yield from my_range_recursive(stop, current + 1)
 
 r = my_range_recursive(10)
-print(list(r))
+print(list(r)) # [0, 1, 2, 3, 4, 5, 6, 7, 8, 9]
 ```
 
 #### Generator Expression
@@ -226,7 +226,7 @@ Because generators are iterators, iterators are iterables, and iterators lazily 
 This means we can pass generators into functions that reduce each other.
 
 ```python
-sum(my_range(10))
+print(sum(my_range(10))) # 45
 ```
 
 Calculating the sum in this way avoids creating a list when all we're doing is adding them together and then discarding.
@@ -237,12 +237,12 @@ We can rewrite the very [first example](#the-problem) to be much better using a 
 s = 'baacabcaab'
 p = 'a'
 
-def find(string, character):
+def find_char(string, character):
   for index, str_char in enumerate(string):
     if str_char == character:
       yield index
 
-print(list(find(s, p))) # [1, 2, 4, 7, 8]
+print(list(find_char(s, p))) # [1, 2, 4, 7, 8]
 ```
 
 Now immediately there might be no obvious benefit, but let's go to my first question: "what if we only want the first result; will we need to make an entirely new function?"
@@ -250,7 +250,7 @@ Now immediately there might be no obvious benefit, but let's go to my first ques
 > With a generator function we don't need to rewrite as much logic.
 
 ```python
-print(next(find(s, p))) # 1
+print(next(find_char(s, p))) # 1
 ```
 
 Now we *could* retrieve the first value of the list that our original solution gave, but this way we only get the first match and stop iterating over the list. The generator will be then discarded and nothing else is created; massively saving memory.
