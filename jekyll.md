@@ -1,6 +1,6 @@
 ---
 layout: post
-title: How to Host a Jekyll Website with GitLab Pages, Custom Domain, and TLS
+title: Hosting a Jekyll Website with GitLab Pages, a Custom Domain, and HTTPS
 ---
 
 To get this blog up and running I had the issue of needing to serve it through HTTPS because of HSTS property on .dev domains.
@@ -11,22 +11,16 @@ This tutorial assumes that you're on a Mac with Homebrew installed
 
 1. Install rbenv with `brew install rbenv`
 1. Add `if which rbenv > /dev/null; then eval "$(rbenv init -)"; fi` to your terminal profile and reload it
-```sh
-echo 'if which rbenv > /dev/null; then eval "$(rbenv init -)"; fi' >> ~/.zshrc
-source ~/.zshrc
-```
+    ```sh
+    echo 'if which rbenv > /dev/null; then eval "$(rbenv init -)"; fi' >> ~/.zshrc
+    source ~/.zshrc
+    ```
 1. Install the latest Ruby (2.6.2 at time of writing) with `rbenv install $(rbenv install -l | grep -v - | tail -1)` [credit](https://stackoverflow.com/a/30191850)
 1. Set the global version of Ruby with `rbenv global [version]` where version is whatever it installed previously (e.g. `rbenv global 2.6.2`)
 1. Run `rbenv rehash` to use it in your terminal
 1. Install Jekyll and bundler with `gem install jekyll bundler` confirming when necessary
 1. Navigate to where you want your new project and run `jekyll new [your-project]`
 1. Run `bundle install` and then `bundle exec jekyll serve`
-
-## Congratulations
-
-You now have an environment to where you can start working on your new blog or whatever else.
-
-![Congrats!](https://i.kym-cdn.com/photos/images/original/000/707/322/fac.gif){: width="100%"}
 
 # Automatically building and publishing with GitLab CI {#gitlab-ci}
 
