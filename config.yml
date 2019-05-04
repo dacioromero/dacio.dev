@@ -1,4 +1,4 @@
-baseURL: 'http://example.org/'
+baseURL: https://blog.dacio.dev/
 languageCode: en-us
 title: Dacio's Tech Blog
 theme: hyde
