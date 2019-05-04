@@ -1,0 +1,15 @@
+baseURL: 'http://example.org/'
+languageCode: en-us
+title: Dacio's Tech Blog
+theme: hyde
+pygmentsCodeFences: true
+permalinks:
+  posts: /:year/:month/:day/:slug/
+params:
+  description: The blog of an SF-based learner/programmer.
+  customJS:
+  - src = "https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/languages/yaml.min.js"
+    integrity = "sha256-tvm0lHsuUZcOfj/0C9xJTU4OQx5KpUgxUcAXLX5kvwA="
+    crossorigin = "anonymous"
+    async = true
+    defer = true

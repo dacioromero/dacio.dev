@@ -1,6 +1,7 @@
 ---
-layout: post
 title: Hosting a Jekyll Website with GitLab Pages, a Custom Domain, and HTTPS
+date: 2019-04-11T02:38:08-07:00
+draft: true
 ---
 
 To get this blog up and running I had the issue of needing to serve it through HTTPS because of HSTS property on .dev domains.

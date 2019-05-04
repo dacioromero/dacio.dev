@@ -1,7 +1,6 @@
 ---
-layout: post
 title: Hello, World!
-date: 2019-04-10 00:40 -0700
+date: 2019-04-10T00:40:00-07:00
 ---
 
 This is my first post made with Jekyll and hopefully the start of a breat blog!

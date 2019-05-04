@@ -1,0 +1,2 @@
+include:
+  remote: https://gitlab.com/pages/hugo/raw/master/.gitlab-ci.yml

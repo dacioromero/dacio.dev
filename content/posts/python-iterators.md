@@ -1,7 +1,7 @@
 ---
-layout: post
 title: Fantastic Iterators and How to Make Them
-date: 2019-05-03 00:32 -0700
+slug: python-iterators-and-generators
+date: 2019-05-03T00:32:00-07:00
 ---
 <!--
 TODO:
