@@ -23,7 +23,7 @@ Refactoring, in a nutshell, is making changes that **don't** change the function
 
 # Examples
 
-## Syntatic
+## Syntactic
 
 Following up on [my previous post on iterators](/2019/05/03/python-iterators-and-generators/) let's see how I used my knowledge of iterators to refactor some code in the past.
 
