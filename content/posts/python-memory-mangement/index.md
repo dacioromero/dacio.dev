@@ -28,7 +28,7 @@ One being performing linear search on a list of phone numbers because I couldn't
 
 #### Dictonary
 
-Our next step was to throw it all into as dictionary and keep removing characters off of my numbers until there was a match.
+Our next step was to throw it all into a dictionary and keep removing characters off of my numbers until there was a match.
 
 [File](https://github.com/lacunahag/call_routing_project/blob/e8d1fbe7a2d8560fd27e1b99ab9b445ad994e2a1/scenario2.py)
 
@@ -38,24 +38,24 @@ Jasmine said that [tries](https://en.wikipedia.org/wiki/Trie) might be a good so
 
 <center>
   <img alt="Trie" src="https://upload.wikimedia.org/wikipedia/commons/thumb/b/be/Trie_example.svg/819px-Trie_example.svg.png">
-  <a href="https://commons.wikimedia.org/wiki/File:Trie_example.svg">Source</a>
+  Diagram - <a href="https://commons.wikimedia.org/wiki/File:Trie_example.svg">Source</a>
 </center>
 
-To our dismay it was using 3 GB of RAM on a 10 million route dataset! When Jasmine tried to build her own it actually crashed Linux laptop.
+To our dismay, it was using ***3 GB of RAM*** on a 10 million route dataset! When Jasmine tried to build her own it actually crashed on her laptop with 8 GB of RAM in total.
 
 It was time to track down where all our RAM going.
 
 # Tips and Resources
 
-Through my attempts to optimize the memory usage I have some tips and resources.
+Through my attempts to optimize the memory, I have some pointers.
 
-## Pympler
+## [Pympler](https://pythonhosted.org/Pympler/)
 
-Pympler is a powerful tool to track down memory usage. The two commands I used were `asizeof` and `SummaryTracker`.
+Pympler is a powerful tool to analyze memory usage
 
 ### [pympler.asizeof.asizeof](https://pythonhosted.org/Pympler/library/asizeof.html?highlight=asizeof%20asizeof#pympler.asizeof.asizeof)
 
-This fuction recursively checks every object referenced by several objects allowing you to get the actual size in bytes.
+This function recursively checks every object referenced by several objects allowing you to get the actual size in bytes.
 
 <center>
   <img alt="Example" src="./asizeof.png">
@@ -64,29 +64,33 @@ This fuction recursively checks every object referenced by several objects allow
 
 ### [pympler.tracker.SummaryTracker](https://pythonhosted.org/Pympler/library/tracker.html?highlight=summarytracker#pympler.tracker.SummaryTracker)
 
-This class has a function called `print_diff` shows you how many of each type of object there are and the amount of memory that they take up.
+This class has a function called `print_diff` shows you how many of each type of new object there are and the amount of memory that they take up. This is useful
 
 <center>
   <img alt="Example" src="./summary-tracker.png">
 </center>
 
-This tracker is telling me that I should figure out how to *reduce the number of subtries* that I'm creating and perhaps find another way to to use lists.
+This tracker is telling me that I should figure out how to *reduce the number of subtries* that I'm creating and perhaps find another way to use lists.
 
 The first time I used it I realized that I needed to **stop using so many dictionaries**. If I know the exact inputs my Trie will be receiving I could use one dictionary to map characters to parts of a list.
 
-### Much more
+### Much much more
 
-Pympler has much more in store, but these are the parts that I used.
+Pympler has much more in store, I'd highly recommend going through their documentation and seeing if there's anything of use.
+
+## [tracemalloc](https://docs.python.org/3/library/tracemalloc.html)
+
+Python 3.4 and up has a built-in memory tracer
 
 ## Use `__slots__`!
 
-Slots in Python are a pretty quick way to reduce the memory usage of an object. By default Python uses dictionaries to store class attributes which you can easily find in the variable `__dict__`.
+Slots in Python are a pretty quick way to reduce the memory usage of an object. By default Python uses dictionaries to store class attributes which you find in the variable `__dict__`.
 
 <center>
   <img alt="Example" src="./class-dict.png">
 </center>
 
-If you instead explicity define which variables your object will have you can save a decent amount of memory
+If you instead explicitly define which variables using `__slots__` your object will have you can save a *substantial* amount of memory which pays off with recursive data structures like tries.
 
 <center>
   <img alt="Example" src="./class-slots.png">
@@ -96,9 +100,9 @@ By using slots more than halved our memory usage while still storing the same da
 
 ## Default to None
 
-In my Tries I realized that there are a lot of moments when a Trie won't have any subtries, but I still made a list for them.
+In my Tries, I realized that there are a lot of moments when a Trie won't have any subtries, but I still made a list for them.
 
-Although there's a bit of a tradeoff, I believe in situations where you have 4.6 million of the same object it's worth it to default variables to None and only create them when necessary
+Although there's a bit of a tradeoff, I believe in situations where you have 4.6 million of the same object it's worth it to default variables to None and only creates them when necessary
 
 <center>
   <img alt="Example" src="./none.png">
@@ -107,13 +111,17 @@ Although there's a bit of a tradeoff, I believe in situations where you have 4.6
 
 You can see that with more than **4 million nodes** the size of both empty dictionaries and empty lists can add up *incredibly* quickly.
 
+> You should only create data structures when they're being used.
+
 ## Use Smaller Types
 
-You might fall into the pattern of reusing one datatype multiple times because it worked like a dictionary. Nested dictionaries are incredibly useful, but what if the keys are incredibly similar?
+You might fall into the pattern of reusing one datatype multiple times because it worked like a dictionary.
 
-In our phone number problem, I realized that there were only going to be 11 characters that would matter as those being "+1234567890", so why should I use a data structure optimized for arbitrary keys?
+> Nested dictionaries are common, but what if the keys are predictable?
 
-I changed the init method to look somewhat like the following.
+In our phone number problem, I realized that there were only going to be 11 characters "+1234567890", so why should I use a data structure optimized for arbitrary keys?
+
+I decided it would be worth it to create a "mapper" that converts a character into an index in a list.
 
 ```python
 def __init__(self, keys = None, items = None, _value = None, _mapper =  None):
@@ -129,8 +137,8 @@ def __init__(self, keys = None, items = None, _value = None, _mapper =  None):
 
 [Commit](https://github.com/lacunahag/call_routing_project/commit/4605171ef87696d555b880f41f9101b5041bc54c)
 
-This allows me to generate a mapper at the root and use that to match a specific spot in a list. This was **by far** one of the best optimizations that I made and reduced my memory usage from around 3 GB to 1.5 GB.
+This allows me to generate a mapper at the root and pass it down. I can then use it to get the index of where a Trie *should* be. This was **by far** one of the best optimizations that I made and reduced my memory usage from around **3 GB to 1.5 GB**.
 
 # Conclusion
 
-Optimizing your code for memory usage might not be one of the first things you do. Once you're operation at scale, however, it becomes just as important as speed.
+Optimizing your code for memory usage might not be one of the first things you might think to do. Once you're operating at scale, however, it becomes just as important as speed.
