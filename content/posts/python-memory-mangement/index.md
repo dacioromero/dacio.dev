@@ -17,7 +17,7 @@ tags:
 
 # Managing Memory
 
-An assignment that [Jasmine](https://github.com/lacunahag) and I had recently done for my instructor, [Alan Davis](https://www.linkedin.com/in/alancdavis/), at [Make School](https://www.makeschool.com/) was given a large list of phone routes consisting of their standardized prefixes and costs.
+An assignment that [Jasmine](https://medium.com/@jasmine.yhumbert) and I had recently done for my instructor, [Alan Davis](https://www.linkedin.com/in/alancdavis/), at [Make School](https://www.makeschool.com/) was given a large list of phone routes consisting of their standardized prefixes and costs.
 
 The task was for increasing amounts of routes and phone numbers to find the longest matches and their prices.
 
@@ -48,7 +48,7 @@ Jasmine said that [tries](https://en.wikipedia.org/wiki/Trie) might be a good so
 
 To our dismay, it was using ***3 GB of RAM*** on a 10 million route dataset! When Jasmine tried to build her own it actually crashed on her laptop with 8 GB of RAM in total.
 
-***It was time to track down where all our RAM going.***
+***It was time to track down where all our RAM is going.***
 
 # Tips and Resources
 
