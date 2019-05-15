@@ -2,7 +2,12 @@
 title: "Python Memory Mangement"
 slug: "python-memory"
 date: 2019-05-15T09:33:28-07:00
-draft: true
+categories:
+- "Programming"
+tags:
+- "Python"
+- "Make School"
+- "Memory Mangement"
 ---
 
 <center>
@@ -43,7 +48,7 @@ Jasmine said that [tries](https://en.wikipedia.org/wiki/Trie) might be a good so
 
 To our dismay, it was using ***3 GB of RAM*** on a 10 million route dataset! When Jasmine tried to build her own it actually crashed on her laptop with 8 GB of RAM in total.
 
-It was time to track down where all our RAM going.
+***It was time to track down where all our RAM going.***
 
 # Tips and Resources
 
@@ -142,3 +147,7 @@ This allows me to generate a mapper at the root and pass it down. I can then use
 # Conclusion
 
 Optimizing your code for memory usage might not be one of the first things you might think to do. Once you're operating at scale, however, it becomes just as important as speed.
+
+Take a look at [our repo](https://github.com/lacunahag/call_routing_project) if you want to see our solution to the phone numbers problem
+
+> I'm looking for interships, so don't be afraid to reach out! [My LinkedIn](https://www.linkedin.com/in/dacioromero/)
