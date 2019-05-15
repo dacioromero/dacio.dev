@@ -1,5 +1,5 @@
 ---
-title: "Python Memory Mangement"
+title: "Python Memory Management"
 slug: "python-memory"
 date: 2019-05-15T09:33:28-07:00
 categories:
@@ -7,7 +7,7 @@ categories:
 tags:
 - "Python"
 - "Make School"
-- "Memory Mangement"
+- "Memory Management"
 ---
 
 <center>
@@ -31,7 +31,7 @@ One being performing linear search on a list of phone numbers because I couldn't
 
 [File](https://github.com/lacunahag/call_routing_project/blob/e05e1577fc2f946b268ac4451fd7e11d4a8d6501/scenario1.py)
 
-#### Dictonary
+#### Dictionary
 
 Our next step was to throw it all into a dictionary and keep removing characters off of my numbers until there was a match.
 
@@ -56,7 +56,7 @@ Through my attempts to optimize the memory, I have some pointers.
 
 ## [Pympler](https://pythonhosted.org/Pympler/)
 
-Pympler is a powerful tool to analyze memory usage
+Pympler is a powerful tool to analyze memory usage.
 
 ### [pympler.asizeof.asizeof](https://pythonhosted.org/Pympler/library/asizeof.html?highlight=asizeof%20asizeof#pympler.asizeof.asizeof)
 
@@ -85,7 +85,7 @@ Pympler has much more in store, I'd highly recommend going through their documen
 
 ## [tracemalloc](https://docs.python.org/3/library/tracemalloc.html)
 
-Python 3.4 and up has a built-in memory tracer
+Python 3.4 and up has a built-in memory tracer, but I admit I don't have as much experience with it.
 
 ## Use `__slots__`!
 
@@ -150,4 +150,4 @@ Optimizing your code for memory usage might not be one of the first things you m
 
 Take a look at [our repo](https://github.com/lacunahag/call_routing_project) if you want to see our solution to the phone numbers problem
 
-> I'm looking for interships, so don't be afraid to reach out! [My LinkedIn](https://www.linkedin.com/in/dacioromero/)
+> I'm looking for internships, so don't be afraid to reach out! [My LinkedIn](https://www.linkedin.com/in/dacioromero/)
