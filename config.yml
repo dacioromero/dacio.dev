@@ -12,3 +12,10 @@ permalinks:
 
 params:
   description: The blog of an SF-based learner/programmer.
+
+Menus:
+  main:
+    - Name: GitHub
+      URL: https://github.com/dacioromero/
+    - Name: LinkedIn
+      URL: https://www.linkedin.com/in/dacioromero/
