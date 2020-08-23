@@ -19,3 +19,8 @@ Menus:
       URL: https://github.com/dacioromero/
     - Name: LinkedIn
       URL: https://www.linkedin.com/in/dacioromero/
+
+markup:
+  goldmark:
+    renderer:
+      unsafe: true
