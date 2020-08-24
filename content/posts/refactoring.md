@@ -1,19 +1,20 @@
 ---
-title: "Getting to Refactoring"
-slug: "refactoring"
-date: 2019-05-07T14:07:22-07:00
+title: Getting to Refactoring
+slug: refactoring
+date: "2019-05-07T14:07:22-07:00"
+aliases:
+  - /2019/05/07/refactoring/
 ---
 
-<center>
-  <img src="https://source.unsplash.com/vGgn0xLdy8s" alt="Hero Image">
-  Photo by Annie Spratt on Unsplash
-</center>
+![Hero Image](https://source.unsplash.com/vGgn0xLdy8s)
 
-Every developer at some point will revisit their old project or snippet of code and be disgusted with the work they had. It is natural though: the name of the game as a developer is to *continually learn and improve*, so looking at old code is almost always when you didn't know as much as you do now.
+Photo by Annie Spratt on Unsplash
+
+Every developer at some point will revisit their old project or snippet of code and be disgusted with the work they had. It is natural though: the name of the game as a developer is to _continually learn and improve_, so looking at old code is almost always when you didn't know as much as you do now.
 
 At first, you might want to avoid messing with old code, but you're missing out an opportunity to learn, improve the maintainability of the code, make it more performant, or even make it a better portfolio item if it's something you can show publicly.
 
-> Knowing that you should improve is the first step to *refactoring* your code.
+> Knowing that you should improve is the first step to _refactoring_ your code.
 
 # What is it?
 
@@ -58,9 +59,9 @@ def find_all_indexes(text, pattern):
 
 Now there should be a couple of red flags going off in your head right about now.
 
-Lines 5-7 and 18-20 are incredibly similar. This code isn't as *maintainable* because if anyone wants to change the search logic now there are **two points** to change.
+Lines 5-7 and 18-20 are incredibly similar. This code isn't as _maintainable_ because if anyone wants to change the search logic now there are **two points** to change.
 
-At the time of writing the first example that I didn't fully understand how iterators and how they could improve this code. If you don't know what an iterator is it *lazily* produces values allowing you to perform actions on them one at a time. So let's make an iterator with a generator function that combines the logic of both of them.
+At the time of writing the first example that I didn't fully understand how iterators and how they could improve this code. If you don't know what an iterator is it _lazily_ produces values allowing you to perform actions on them one at a time. So let's make an iterator with a generator function that combines the logic of both of them.
 
 ```python
 def _find_indexes(text, pattern):
@@ -87,7 +88,7 @@ def find_all_indexes(text, pattern):
 
 ### Result
 
-We've reduced the complexity and improved the DRYness of our code. This helps *maintainability and readability*. If we want to improve the performance or any other aspect it'd be much easier now. So let's do that.
+We've reduced the complexity and improved the DRYness of our code. This helps _maintainability and readability_. If we want to improve the performance or any other aspect it'd be much easier now. So let's do that.
 
 ## Performance
 
@@ -118,6 +119,6 @@ By creating `char_gen` and using it to check each character individually we've r
 
 # Conclusion
 
-There are *many* other ways that you can refactor your code, but hopefully, this sets you down the right path to starting. What I've shown are some pretty trivial examples, but the same pattern can be applied to most types of code.
+There are _many_ other ways that you can refactor your code, but hopefully, this sets you down the right path to starting. What I've shown are some pretty trivial examples, but the same pattern can be applied to most types of code.
 
 > Look for places that have similar logic, are underperforming, or just simply are hard to understand and **refactor** it.

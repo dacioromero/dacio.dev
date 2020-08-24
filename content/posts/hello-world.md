@@ -1,6 +1,8 @@
 ---
 title: Hello, World!
-date: 2019-04-10T00:40:00-07:00
+date: "2019-04-10T00:40:00-07:00"
+aliases:
+  - /2019/04/10/hello-world/
 ---
 
 This is my first post made with Jekyll and hopefully the start of a breat blog!
@@ -20,7 +22,8 @@ I'm pretty comfortable with Docker and GitLab CI.
 ### Goals for the end of the year
 
 I want to
-- ***GET A JOB!!***
+
+- **_GET A JOB!!_**
 - deploy a project with
   - a userbase
   - C#

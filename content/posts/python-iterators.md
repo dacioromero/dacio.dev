@@ -1,19 +1,13 @@
 ---
 title: Fantastic Iterators and How to Make Them
 slug: python-iterators-and-generators
-date: 2019-05-03T00:32:00-07:00
+date: "2019-05-03T00:32:00-07:00"
+aliases:
+  - /2019/05/03/python-iterators-and-generators/
 ---
-<!--
-TODO:
-- Add visual aids
-- Get peer reviewed
-- Publish
--->
 
-<center>
-  <img src="https://source.unsplash.com/dJdcb11aboQ" alt="Hero Image">
-  Photo by John Matychuk on Unsplash
-</center>
+![Hero Image](https://source.unsplash.com/dJdcb11aboQ)
+Photo by John Matychuk on Unsplash
 
 ## The Problem
 
@@ -44,13 +38,13 @@ Iterators are the ideal solution to these problems. They function like "lazy lis
 
 > Iterators **lazily** return values; saving memory.
 
-***So let's dive into learning about them!***
+**_So let's dive into learning about them!_**
 
 ## Built-In Iterators
 
-The iterators that are most often are `enumerate()`, and `zip()`. Both of these *lazily* return values by `next()` with them.
+The iterators that are most often are `enumerate()`, and `zip()`. Both of these _lazily_ return values by `next()` with them.
 
-**`range()`, however, is *not* an iterator, but an *"lazy iterable."*** - [Explanation](https://treyhunner.com/2018/02/python-range-is-not-an-iterator/)
+**`range()`, however, is _not_ an iterator, but an _"lazy iterable."_** - [Explanation](https://treyhunner.com/2018/02/python-range-is-not-an-iterator/)
 
 We can convert `range()` into an iterator with `iter()`, so we'll do that for our examples for the sake of learning.
 
@@ -60,7 +54,7 @@ print(next(my_iter)) # 0
 print(next(my_iter)) # 1
 ```
 
-Upon each call of `next() `we get the next value in our range; makes sense right? If you want to convert an iterator it to a list you just give it the list constructor.
+Upon each call of `next()`we get the next value in our range; makes sense right? If you want to convert an iterator it to a list you just give it the list constructor.
 
 ```python
 my_iter = iter(range(10))
@@ -152,7 +146,7 @@ Do you see how beautiful those 4 lines of code are? It's slightly significantly 
 
 > Generator functions iterators with less boilerplate than classes with a normal logic flow.
 
-Generator functions automagically **"pause"** execution and return the specified value with every call of `next()`. This means that *no code* is run until the **first** `next()` call.
+Generator functions automagically **"pause"** execution and return the specified value with every call of `next()`. This means that _no code_ is run until the **first** `next()` call.
 
 This means the flow is like this:
 
@@ -172,7 +166,7 @@ def yielded_range():
 print(list(yielded_range())) # [0, 1, 2, 3, 4, 5, 6, 7, 8, 9]
 ```
 
-That wasn't a particularly complex example. But you can even do it *recursively*!
+That wasn't a particularly complex example. But you can even do it _recursively_!
 
 ```python
 def my_range_recursive(stop, current = 0):
@@ -194,6 +188,7 @@ Generator expressions allow us to create iterators as one-liners and are good wh
 my_doubled_range_10 = (x * 2 for x in my_range(10))
 print(list(my_doubled_range_10)) # 0, 2, 4, 6, 8, 10, 12, 14, 16, 18]
 ```
+
 The cool thing about this is that it does the following:
 
 1. The `list` asks `my_doubled_range_10` for its next value.
@@ -203,7 +198,7 @@ The cool thing about this is that it does the following:
 1. 1-5 repeat until `my_doubled_range_10` raises `StopIteration` which happens when `my_range` does.
 1. The `list` is returned containing each value returned by `my_doubled_range`.
 
-We can even do *filtering* using generator expressions!
+We can even do _filtering_ using generator expressions!
 
 ```python
 my_even_range_10 = (x for x in my_range(10) if x % 2 == 0)
@@ -253,7 +248,7 @@ Now immediately there might be no obvious benefit, but let's go to my first ques
 print(next(find_char(s, p))) # 1
 ```
 
-Now we *could* retrieve the first value of the list that our original solution gave, but this way we only get the first match and stop iterating over the list. The generator will be then discarded and nothing else is created; massively saving memory.
+Now we _could_ retrieve the first value of the list that our original solution gave, but this way we only get the first match and stop iterating over the list. The generator will be then discarded and nothing else is created; massively saving memory.
 
 ## Conclusion
 
@@ -282,6 +277,7 @@ def foo(bar):
 ## Resources and Sources
 
 #### PEPs
+
 - [Generators](https://www.python.org/dev/peps/pep-0255/)
 - [Generator Expressions PEP](https://www.python.org/dev/peps/pep-0289/)
 - [Yield From PEP](https://www.python.org/dev/peps/pep-0380/)

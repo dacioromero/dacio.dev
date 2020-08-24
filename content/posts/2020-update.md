@@ -1,6 +1,7 @@
 ---
-title: "2020 Update"
-date: 2020-02-05T20:39:03-08:00
+title: 2020 Update
+date: "2020-02-05T20:39:03-08:00"
+slug: update
 draft: true
 ---
 
