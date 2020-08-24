@@ -1,6 +1,6 @@
-baseURL: https://blog.dacio.dev/
+baseURL: https://dacio.dev/
 languageCode: en-us
-title: Dacio's Tech Blog
+title: Dacio Romero
 theme: hugo-coder
 disqusShortname: dacio
 
@@ -9,7 +9,7 @@ permalinks:
 
 params:
   author: Dacio Romero
-  description: The blog of an SF-based learner/programmer.
+  description: Just another Software Engineer's personal website.
   info: Full-stack Software Engineer
   gravatar: dacioromero@gmail.com
   keywords: blog,developer
