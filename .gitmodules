@@ -1,4 +1,3 @@
 [submodule "themes/hugo-coder"]
 	path = themes/hugo-coder
-	url = https://github.com/clement-pannetier/hugo-coder.git
-	branch = fix-hugo-build
+	url = https://github.com/luizdepra/hugo-coder.git
